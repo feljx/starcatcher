@@ -1,14 +1,11 @@
-$ LANG = C
-$ CC = gcc
-$ CFLAGS= -std=c11 -Wall -Wextra -pedantic
+$ LANG = Javascript
 
-all: monty run
+webpack_config := wp.config.js
 
-monty: monty.c
-	@$(CC) $(CFLAGS) monty.c -o monty
+.PHONY: prod dev
 
-run:
-	@./monty
+prod:
+	@npx wp --config.build ${webpack_config}
 
-
-.PHONY: run
+dev:
+	@npx wp --config.serve ${webpack_config}

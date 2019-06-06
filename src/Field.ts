@@ -39,11 +39,14 @@ class Field {
 		if (this.is_flagged) {
 			restyle(this.container, cell_styles)
 			remove_text(this.container)
+			++this.game.stars_left
 		}
 		else {
 			restyle(this.container, flagged_cell_styles)
 			add_text(this.container, FLAG)
+			--this.game.stars_left
 		}
+		this.game.sidebar.update_counter()
 		this.is_flagged = !this.is_flagged
 	}
 
@@ -51,11 +54,10 @@ class Field {
 		// do nothing if field is open or flagged
 		if (this.is_open || this.is_flagged) return
 
-		// restyle field, update state, update sidebar
+		// restyle field, update state
 		restyle(this.container, open_cell_styles)
 		this.is_open = true
 		--this.game.fields_left
-		this.game.sidebar.update_counter()
 
 		// is field is not empty, add text and style
 		if (!this.is_empty) {

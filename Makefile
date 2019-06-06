@@ -1,6 +1,6 @@
 $ LANG = Javascript
 
-webpack_config := wp.config.js
+webpack_config := webpack.config.js
 
 .PHONY: prod dev
 

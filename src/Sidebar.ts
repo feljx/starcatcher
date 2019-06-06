@@ -1,4 +1,4 @@
-import { div, add_text, remove_text } from 'flxels'
+import { div, add_text, remove_text, style } from 'flxels'
 import { sidebar_styles, smile_styles } from './styles'
 import Game from './Game'
 
@@ -9,6 +9,7 @@ class Sidebar {
 
 	constructor (private game: Game) {
 		add_text(this.smile, '; >')
+		this.smile.style.fontWeight = 'bold'
 		this.update_counter()
 		this.container.appendChild(this.smile)
 		this.container.appendChild(this.star_counter)
@@ -20,14 +21,18 @@ class Sidebar {
 		})
 	}
 
-	brighten_smile () {
+	_update_smile (val: string) {
 		remove_text(this.smile)
-		add_text(this.smile, '<3')
+		add_text(this.smile, val)
+		remove_text(this.star_counter)
+	}
+
+	brighten_smile () {
+		this._update_smile('<3')
 	}
 
 	sadden_smile () {
-		remove_text(this.smile)
-		add_text(this.smile, ': <')
+		this._update_smile(': <')
 	}
 
 	update_counter () {

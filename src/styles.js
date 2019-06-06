@@ -48,15 +48,17 @@ export const title_styles = {
 export const game_styles = {
 	color: STARRYGOLD,
 	display: 'flex',
-	marginLeft: '-8rem',
+	marginLeft: '-10rem',
 }
 
 export const sidebar_styles = {
-	fontSize: '2.4rem',
-	fontFamily: 'Helvetica',
+	width: '6rem',
+	fontSize: '3.2rem',
+	// fontFamily: 'Helvetica',
 	// fontWeight: 'bold',
 	display: 'flex',
 	flexDirection: 'column',
+	alignItems: 'flex-start',
 	marginRight: '4rem',
 
 	'> *': {
@@ -108,40 +110,3 @@ export const flagged_cell_styles = {
 	background: STARRYFIRE,
 	color: STARRYGOLD,
 }
-
-// export const containerStyles = {
-// 	display: 'flex',
-// 	flexDirection: 'column',
-// 	alignItems: 'center',
-// 	justifyContent: 'space-evenly',
-
-// 	'> *': {
-// 		width: '18rem',
-
-// 		':not(:first-child)': {
-// 			marginTop: '2.2rem',
-// 		},
-
-// 		'> button:not(:first-child)': {
-// 			marginLeft: '2rem',
-// 		},
-// 	},
-// }
-
-// export const inputStyles = {
-// 	fontSize: '1.8rem',
-// 	color: 'lavender',
-// 	background: 'none',
-// 	border: 'none',
-// 	borderBottom: '0.1rem solid lavender',
-// 	outline: 'none',
-// 	paddingBottom: '0.4rem',
-// }
-
-// export const buttonStyles = {
-// 	color: 'midnightblue',
-// 	fontSize: '1.8rem',
-// 	outline: 'none',
-// 	border: 'none',
-// 	padding: '0.2rem 0.5rem',
-// }

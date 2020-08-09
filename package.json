@@ -1,42 +1,42 @@
 {
-	"name": "starcatcher",
-	"version": "0.1.0",
-	"description": "Gotta Catch 'em All !",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"prod": "npx wp --config.build webpack.config.js",
-		"dev": "npx wp --config.serve webpack.config.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/flxsu/starcatcher.git"
-	},
-	"keywords": [
-		"starcatcher",
-		"star",
-		"catcher"
-	],
-	"author": "flxsu",
-	"license": "GPL-3.0",
-	"bugs": {
-		"url": "https://github.com/flxsu/starcatcher/issues"
-	},
-	"homepage": "https://github.com/flxsu/starcatcher#readme",
-	"dependencies": {
-		"flxels": "^0.2.2",
-		"ramda": "^0.26.1"
-	},
-	"devDependencies": {
-		"@types/ramda": "^0.26.9",
-		"@types/webpack-env": "^1.13.9",
-		"clean-webpack-plugin": "^2.0.2",
-		"html-webpack-plugin": "^3.2.0",
-		"ts-loader": "^6.0.2",
-		"typescript": "^3.5.1",
-		"webpack": "^4.32.1",
-		"webpack-nano": "^0.6.2",
-		"webpack-plugin-serve": "^0.10.0"
-	},
-	"sideEffects": false
+    "name": "starcatcher",
+    "version": "0.1.0",
+    "description": "Gotta Shweep 'em All !",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "npx wp --config.serve webpack.config.js",
+        "build": "npx wp --config.build webpack.config.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/flxsu/starcatcher.git"
+    },
+    "keywords": [
+        "starcatcher",
+        "star",
+        "catcher"
+    ],
+    "author": "flxsu",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/flxsu/starcatcher/issues"
+    },
+    "homepage": "https://github.com/flxsu/starcatcher#readme",
+    "sideEffects": false,
+    "dependencies": {
+        "flxels": "^0.2.2",
+        "ramda": "^0.27.1"
+    },
+    "devDependencies": {
+        "@types/ramda": "^0.27.14",
+        "@types/webpack-env": "^1.15.2",
+        "clean-webpack-plugin": "^3.0.0",
+        "html-webpack-plugin": "^4.3.0",
+        "ts-loader": "^8.0.2",
+        "typescript": "^3.9.7",
+        "webpack": "^4.44.1",
+        "webpack-nano": "^1.0.0",
+        "webpack-plugin-serve": "^1.0.1"
+    }
 }

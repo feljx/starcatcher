@@ -1,10 +1,73 @@
-import Renderable from './Renderable'
+import { of } from 'ramda'
 
-export const enum GameMode {
+export const enum Difficulty {
     Easy = 0.12,
     Intermediate = 0.15,
     Hard = 0.17,
 }
+
+const enum Field {
+    Safe,
+    Mine = '*',
+}
+
+function BoardFields (diff: Difficulty, numFields: number) {
+    const genField = () => (Math.random() < diff ? Field.Mine : Field.Safe)
+    return new Array(numFields).fill(0).map(genField)
+}
+
+function BoardNodes (fields: Field[]) {
+    const history = []
+    return new Array(fields.length).fill(0).map((_, idx) => {
+        const node = document.createElement('div')
+        node.className = 'field'
+        node.onclick = (ev) => {
+            ev.button
+            if (fields[idx] === Field.Mine) {
+                const text = document.createTextNode(Field.Mine)
+                node.appendChild(text)
+            }
+        }
+    })
+}
+
+function BoardNeighbours (numCols: number, fields: Field[]) {
+    const c = numCols
+    const offsets = [ -1, 1, -c, -c - 1, -c + 1, c, c - 1, c + 1 ]
+    return fields.map((_, idx) =>
+        offsets.map((off) => off + idx).filter((idx) => fields[idx])
+    )
+}
+
+//
+function Board (diff: Difficulty, numCols: number, numRows: number) {
+    const numFields = numCols * numRows
+    // create html container
+    const self = document.createElement('div')
+    // set css class
+    self.className = 'field'
+    // create fields and nodes
+    const fields = BoardFields(diff, numFields)
+    const nodes = BoardNodes(fields)
+    const neighbours = BoardNeighbours(numCols, fields)
+    return { self, fields, nodes, neighbours }
+}
+
+function revealField () {}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 export interface GameParameters {
     cols: number

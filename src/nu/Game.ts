@@ -1,5 +1,5 @@
 import { GameState, FieldState } from './State'
-import { FieldNode, BoardNode } from './Nodes'
+import { GameNode } from './Nodes'
 
 export enum FieldValue {
     Safe = '',
@@ -17,22 +17,10 @@ export enum Difficulty {
 //
 
 let gameState = GameState(Difficulty.Intermediate, 15, 15)
-let game = Game(gameState)
+let gameNode = GameNode(gameState)
 
 //
 // Main game logic
-//
-
-// Game factory and initializer
-export function Game (state: GameState) {
-    const gameNode = document.getElementById('game')
-    const boardNode = BoardNode()
-    const fieldNodes = state.fields.map(FieldNode)
-    boardNode.append(...fieldNodes)
-    gameNode.append(boardNode)
-    gameState = state
-}
-
 //
 export function reveal (...fieldIndices: number[]) {}
 

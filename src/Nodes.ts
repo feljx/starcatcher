@@ -1,5 +1,5 @@
 import { FieldState, GameState } from './State'
-import { FieldValue } from './Game'
+import { FieldSymbol } from './Shared'
 import { FieldClickHandler } from './Handlers'
 
 const enum CssClass {
@@ -17,12 +17,12 @@ function MainNode () {}
 // Field node
 //
 
-export function FieldText (text: FieldValue) {
+export function FieldText (text: FieldSymbol) {
     return document.createTextNode(text)
 }
 
 export function FieldNode (fieldState: FieldState) {
-    const fieldNode: FieldNode = document.createElement('div')
+    const fieldNode: HTMLElement = document.createElement('div')
     fieldNode.classList.add(CssClass.Field)
     fieldNode.onclick = FieldClickHandler(fieldState, fieldNode)
     return fieldNode
@@ -32,7 +32,7 @@ export function FieldNode (fieldState: FieldState) {
 // Board node
 //
 
-export function BoardNode (): BoardNode {
+export function BoardNode (): HTMLElement {
     const node = document.createElement('div')
     node.classList.add(CssClass.Game)
     return node
@@ -44,8 +44,8 @@ export function BoardNode (): BoardNode {
 
 interface GameNode {
     self: Node
-    boardNode: BoardNode
-    fieldNodes: FieldNode[]
+    boardNode: HTMLElement
+    fieldNodes: HTMLElement[]
 }
 
 export function GameNode (state: GameState): GameNode {
@@ -55,4 +55,8 @@ export function GameNode (state: GameState): GameNode {
     boardNode.append(...fieldNodes)
     self.append(boardNode)
     return { self, boardNode, fieldNodes }
+}
+
+export class GameNodes {
+    constructor () {}
 }

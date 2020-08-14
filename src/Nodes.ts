@@ -3,60 +3,119 @@ import { FieldSymbol } from './Shared'
 import { FieldClickHandler } from './Handlers'
 
 const enum CssClass {
-    Field = 'field',
     Game = 'game',
+    Menu = 'menu',
+    MenuItem = 'menu-item',
+    Board = 'board',
+    Field = 'field',
 }
 
 //
-// Main node
+// Node base classes
 //
+abstract class __Node {
+    public readonly container: HTMLElement
 
-function MainNode () {}
+    constructor (container: HTMLElement, ...cssClasses: CssClass[]) {
+        this.container = container
+        this.container.classList.add(...cssClasses)
+    }
 
-//
-// Field node
-//
-
-export function FieldText (text: FieldSymbol) {
-    return document.createTextNode(text)
+    append (...nodes: _Node[]) {
+        this.container.append(...nodes.map((n) => n.container))
+    }
 }
 
-export function FieldNode (fieldState: FieldState) {
-    const fieldNode: HTMLElement = document.createElement('div')
-    fieldNode.classList.add(CssClass.Field)
-    fieldNode.onclick = FieldClickHandler(fieldState, fieldNode)
-    return fieldNode
+abstract class _Node extends __Node {
+    public readonly container: HTMLElement
+
+    constructor (tag: string, ...cssClasses: CssClass[]) {
+        this.container = document.createElement(tag)
+        this.container.classList.add(...cssClasses)
+    }
+
+    append (...nodes: _Node[]) {
+        this.container.append(...nodes.map((n) => n.container))
+    }
+}
+
+abstract class _NodeWithText extends _Node {
+    private textNode = document.createTextNode('')
+
+    constructor (tag: string, ...cssClasses: CssClass[]) {
+        super(tag, ...cssClasses)
+        this.container.appendChild(this.textNode)
+    }
+
+    updateText (newText: string) {
+        this.textNode.nodeValue = newText
+    }
 }
 
 //
-// Board node
+// Game
 //
 
-export function BoardNode (): HTMLElement {
-    const node = document.createElement('div')
-    node.classList.add(CssClass.Game)
-    return node
+export class GameNode extends _Node {
+    public menuNode = new MenuNode()
+    public boardNode: BoardNode
+
+    constructor (state: GameState, container?: HTMLElement) {
+        super(container || 'div', CssClass.Game)
+        this.boardNode = new BoardNode(state)
+        this.append(this.menuNode, this.boardNode)
+    }
+}
+
+export default GameNode
+
+//
+// Menu
+//
+
+class MenuNode extends _Node {
+    private menuItems: MenuItemNode[]
+
+    constructor () {
+        super('ul', CssClass.Menu)
+        const toMenuItem = (label: string) => new MenuItemNode(label)
+        this.menuItems = [ 'Settings', 'New Game', 'Forfeit' ].map(toMenuItem)
+        this.append(...this.menuItems)
+    }
 }
 
 //
-// Game node
+// Menu item
+
+class MenuItemNode extends _NodeWithText {
+    constructor (label: string) {
+        super('li', CssClass.MenuItem)
+        this.updateText(label)
+    }
+}
+
+//
+// Board
 //
 
-interface GameNode {
-    self: Node
-    boardNode: HTMLElement
-    fieldNodes: HTMLElement[]
+class BoardNode extends _Node {
+    private fieldNodes: FieldNode[]
+
+    constructor (state: GameState) {
+        super('div', CssClass.Board)
+        const toField = (state: FieldState) => new FieldNode(state)
+        this.fieldNodes = state.fields.map(toField)
+        this.append(...this.fieldNodes)
+    }
 }
 
-export function GameNode (state: GameState): GameNode {
-    const self = document.getElementById('game')
-    const boardNode = BoardNode()
-    const fieldNodes = state.fields.map(FieldNode)
-    boardNode.append(...fieldNodes)
-    self.append(boardNode)
-    return { self, boardNode, fieldNodes }
-}
+//
+// Field
+//
 
-export class GameNodes {
-    constructor () {}
+class FieldNode extends _NodeWithText {
+    constructor (state: FieldState) {
+        super('div', CssClass.Field)
+        this.container.onclick = FieldClickHandler(state, this.container)
+    }
 }

@@ -1,37 +1,36 @@
 import { GameState, FieldState } from './State'
 import { GameNode } from './Nodes'
-import { Difficulty } from './Shared'
+import { Difficulty, Options } from './Shared'
 
 //
-// Live State
+// Main Game class: ties together state and html nodes
 //
 
-let gameState = new GameState(Difficulty.Intermediate, 15, 15)
-// let gameNoes = new GameNodes()
-let gameNode = GameNode(gameState)
+class Game {
+    public state: GameState
+    public node: GameNode
 
-//
-// Main game logic
-//
-export function reveal (...fieldIndices: number[]) {}
+    constructor (options: Options, container?: HTMLElement) {
+        const { diff, numCols, numRows } = options
+        this.state = new GameState(diff, numCols, numRows)
+        this.node = new GameNode(this.state, container)
+    }
 
-//
-export function mark (fieldIndex: number) {}
+    reveal (...fieldIndices: number[]) {}
 
-//
-// Helper functions
-//
+    mark (fieldIndex: number) {}
 
-// Count number of marked nearby fields
-export function getNearbyMarked (fieldState: FieldState) {
-    return fieldState.nearbyIndices
-        .map((idx) => gameState.fields[idx])
-        .filter((state) => state.isMarked()).length
-}
+    // Count number of marked nearby fields
+    getNearbyMarked (fieldState: FieldState) {
+        return fieldState.nearbyIndices
+            .map((idx) => this.state.fields[idx])
+            .filter((state) => state.isMarked()).length
+    }
 
-// Determine whether field can reveal in a cascade
-export function canCascade (fieldIndex: number) {
-    const fieldState = gameState.fields[fieldIndex]
-    const nearbyMarked = getNearbyMarked(fieldState)
-    return nearbyMarked === fieldState.mineCount
+    // Determine whether field can reveal in a cascade
+    canCascade (fieldIndex: number) {
+        const fieldState = this.state.fields[fieldIndex]
+        const nearbyMarked = this.getNearbyMarked(fieldState)
+        return nearbyMarked === fieldState.mineCount
+    }
 }

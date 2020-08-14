@@ -1,6 +1,4 @@
 import { FieldState } from './State'
-import { FieldSymbol, mark, reveal } from './Game'
-import { FieldText } from './Nodes'
 
 const enum Click {
     Left = 0,
@@ -9,10 +7,7 @@ const enum Click {
 }
 
 // Field click handler factory
-export function FieldClickHandler (
-    fieldState: FieldState,
-    fieldNode: HTMLElement
-) {
+export function FieldClickHandler (fieldState: FieldState, fieldNode: HTMLElement) {
     // Event handler
     return function (ev: MouseEvent) {
         switch (ev.button) {

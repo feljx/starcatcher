@@ -27,15 +27,8 @@ abstract class __Node {
 }
 
 abstract class _Node extends __Node {
-    public readonly container: HTMLElement
-
     constructor (tag: string, ...cssClasses: CssClass[]) {
-        this.container = document.createElement(tag)
-        this.container.classList.add(...cssClasses)
-    }
-
-    append (...nodes: _Node[]) {
-        this.container.append(...nodes.map((n) => n.container))
+        super(document.createElement(tag), ...cssClasses)
     }
 }
 
@@ -56,12 +49,12 @@ abstract class _NodeWithText extends _Node {
 // Game
 //
 
-export class GameNode extends _Node {
+export class GameNode extends __Node {
     public menuNode = new MenuNode()
     public boardNode: BoardNode
 
     constructor (state: GameState, container?: HTMLElement) {
-        super(container || 'div', CssClass.Game)
+        super(container || document.createElement('div'), CssClass.Game)
         this.boardNode = new BoardNode(state)
         this.append(this.menuNode, this.boardNode)
     }

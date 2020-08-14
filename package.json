@@ -10,20 +10,17 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/flxsu/starcatcher.git"
+        "url": "git+https://github.com/flxsu/mineshweeper.git"
     },
-    "keywords": [ "starcatcher", "star", "catcher" ],
+    "keywords": [ "mineshweeper", "minesweeper" ],
     "author": "flxsu",
     "license": "GPL-3.0",
     "bugs": {
-        "url": "https://github.com/flxsu/starcatcher/issues"
+        "url": "https://github.com/flxsu/mineshweeper/issues"
     },
-    "homepage": "https://github.com/flxsu/starcatcher#readme",
+    "homepage": "https://github.com/flxsu/mineshweeper#readme",
     "sideEffects": false,
-    "dependencies": {
-        "flxels": "^0.2.2",
-        "ramda": "^0.27.1"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@types/jest": "^26.0.9",
         "@types/ramda": "^0.27.14",

@@ -34,3 +34,5 @@ class Game {
         return nearbyMarked === fieldState.mineCount
     }
 }
+
+export default Game

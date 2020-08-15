@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "jest",
+        "predev": "node src/styles/copy.js",
         "dev": "npx wp --config.serve webpack.config.js",
         "build": "npx wp --config.build webpack.config.js"
     },

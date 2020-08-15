@@ -3,8 +3,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
 
+const OUTPUT_FOLDER = './docs/'
+
 const options = {
-    static: [ './dev' ],
+    static: [ OUTPUT_FOLDER ],
     host: 'localhost',
     port: '8000',
     open: false,
@@ -31,13 +33,20 @@ module.exports = [
                 {
                     test: /\.ts?$/,
                     use: 'ts-loader',
-                    exclude: [ /node_modules/, /dev/ ],
+                    exclude: [ /node_modules/, /docs/ ],
                 },
             ],
         },
         resolve: { extensions: [ '.ts', '.js' ] },
         // plugins
         plugins: [
+            new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns: [
+                    '**/*',
+                    '!styles.css',
+                    '!sanitize.css',
+                ],
+            }),
             new HtmlWebpackPlugin({
                 title: 'starcatcher template',
                 template: HTML_ENTRY,
@@ -73,7 +82,7 @@ module.exports = [
                             experimentalWatchApi: true,
                         },
                     },
-                    exclude: [ /node_modules/, /dev/ ],
+                    exclude: [ /node_modules/, /docs/ ],
                 },
             ],
         },
@@ -81,7 +90,11 @@ module.exports = [
         // plugins
         plugins: [
             new CleanWebpackPlugin({
-                cleanOnceBeforeBuildPatterns: [ '**/*', '!sanitize.css' ],
+                cleanOnceBeforeBuildPatterns: [
+                    '**/*',
+                    '!styles.css',
+                    '!sanitize.css',
+                ],
             }),
             new HtmlWebpackPlugin({
                 title: 'starcatcher template',
@@ -92,7 +105,7 @@ module.exports = [
         watch: true,
         output: {
             filename: '[name].dev.js',
-            path: path.resolve('./dev'),
+            path: path.resolve(OUTPUT_FOLDER),
             publicPath: PUBLIC_PATH,
         },
     },

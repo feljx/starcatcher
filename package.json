@@ -2,11 +2,11 @@
 	"name": "starcatcher",
 	"version": "0.1.0",
 	"description": "Gotta Catch 'em All !",
-	"main": "index.js",
+	"main": "src/index.tsx",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"prod": "npx wp --config.build webpack.config.js",
-		"dev": "npx wp --config.serve webpack.config.js"
+		"start": "webpack serve --config-name dev --mode development",
+		"build": "webpack --config-name prod --mode production --node-env production",
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
 		"type": "git",
@@ -18,25 +18,34 @@
 		"catcher"
 	],
 	"author": "flxsu",
-	"license": "GPL-3.0",
+	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/flxsu/starcatcher/issues"
 	},
 	"homepage": "https://github.com/flxsu/starcatcher#readme",
-	"dependencies": {
-		"flxels": "^0.2.2",
-		"ramda": "^0.26.1"
-	},
 	"devDependencies": {
-		"@types/ramda": "^0.26.9",
-		"@types/webpack-env": "^1.13.9",
-		"clean-webpack-plugin": "^2.0.2",
-		"html-webpack-plugin": "^3.2.0",
-		"ts-loader": "^6.0.2",
-		"typescript": "^3.5.1",
-		"webpack": "^4.32.1",
-		"webpack-nano": "^0.6.2",
-		"webpack-plugin-serve": "^0.10.0"
+		"@babel/core": "^7.14.6",
+		"@babel/preset-env": "^7.14.7",
+		"@babel/preset-react": "^7.14.5",
+		"@babel/preset-typescript": "^7.14.5",
+		"@types/react": "^17.0.14",
+		"@types/react-dom": "^17.0.9",
+		"babel-loader": "^8.2.2",
+		"copy-webpack-plugin": "^9.0.1",
+		"css-loader": "^5.2.6",
+		"css-minimizer-webpack-plugin": "^3.0.2",
+		"html-loader": "^2.1.2",
+		"html-webpack-plugin": "^5.3.2",
+		"mini-css-extract-plugin": "^2.1.0",
+		"style-loader": "^3.0.0",
+		"typescript": "^4.3.5",
+		"webpack": "^5.44.0",
+		"webpack-cli": "^4.7.2",
+		"webpack-dev-server": "^4.0.0-beta.3"
+	},
+	"dependencies": {
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
 	},
 	"sideEffects": false
 }

@@ -1,97 +1,140 @@
-const path = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { resolve } = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const { HotModuleReplacementPlugin } = require('webpack')
 
-const options = {
-    static: [ './dev' ],
-    host: 'localhost',
-    port: '3000',
-    open: false,
-    progress: 'minimal'
-    // liveReload: true,
+// USER CONFIGURATION
+const SOURCE_FOLDER = resolve('src')
+const TARGET_FOLDER_PRODUCTION = resolve('docs')
+const TARGET_FOLDER_DEVELOPMENT = resolve('dev')
+const ENTRY_FILE = 'index.tsx'
+const HTML_TEMPLATE = 'index.html'
+// const RANDOM_ASSET_URI = 'RANDOM_ASSET_FILE'
+
+// PRODUCTION CONFIG SETTINGS
+const production = {
+    name: 'prod',
+    mode: 'production',
+    output_folder: TARGET_FOLDER_PRODUCTION,
+    plugins: [
+        // OPTIONAL way to copy arbitrary assets ('' is the bundle folder)
+        // new CopyPlugin({
+        //     patterns: [ { from: `${SOURCE_FOLDER}/${RANDOM_ASSET_URI}`, to: '' } ]
+        // }),
+        new MiniCssExtractPlugin({
+            filename: '[name].bundle.css',
+            chunkFilename: '[id].css'
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Template',
+            template: resolve(SOURCE_FOLDER, HTML_TEMPLATE)
+        })
+    ]
 }
 
-const bundleName = 'index'
-const tsPath = `${path.resolve('src')}/app.ts`
-const htmlPath = `${path.resolve('src')}/app.html`
-const publicPath = ''
+// DEVELOPMENT CONFIG SETTINGS
+const development = {
+    name: 'dev',
+    mode: 'development',
+    output_folder: TARGET_FOLDER_DEVELOPMENT,
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'Template',
+            template: resolve(SOURCE_FOLDER, HTML_TEMPLATE)
+        }),
+        new HotModuleReplacementPlugin()
+    ]
+}
 
-module.exports = [
-    /* 
-    PRODUCTION
-     */
-    {
-        name: 'build',
-        mode: 'production',
-        entry: { [bundleName]: tsPath },
-        // typescript
-        module: {
-            rules: [
-                {
-                    test: /\.ts?$/,
-                    use: 'ts-loader',
-                    exclude: [ /node_modules/, /dev/ ]
-                }
-            ]
-        },
-        resolve: { extensions: [ '.ts', '.js' ] },
-        // plugins
-        plugins: [
-            new HtmlWebpackPlugin({
-                title: 'starcatcher template',
-                template: htmlPath
-            })
-        ],
-        watch: false,
-        output: {
-            filename: '[name].js',
-            path: path.resolve('.'),
-            publicPath: publicPath
-        }
+// Internal constants
+const _DEVELOPMENT_MODE = 'development'
+
+// MAP CONFIG SETTINGS TO FINISHED CONFIG
+const Config = (config_settings) => ({
+    // Merge options from data
+    name: config_settings.name,
+    mode: config_settings.mode,
+    // Entry
+    entry: resolve(SOURCE_FOLDER, ENTRY_FILE),
+    // Module resolution
+    resolve: {
+        extensions: [ '.ts', '.tsx', '.js', '.json' ]
     },
-
-    /* 
-    DEVELOPMENT
-     */
-    {
-        name: 'serve',
-        mode: 'development',
-        entry: { [bundleName]: [ tsPath, 'webpack-plugin-serve/client' ] },
-        // typescript
-        devtool: 'inline-source-map',
-        module: {
-            rules: [
-                {
-                    test: /\.ts?$/,
-                    use: {
-                        loader: 'ts-loader',
-                        options: {
-                            transpileOnly: true,
-                            experimentalWatchApi: true
-                        }
-                    },
-                    exclude: [ /node_modules/, /dev/ ]
+    // Output
+    output: {
+        path: config_settings.output_folder,
+        filename: '[name].js'
+    },
+    // Plugins
+    plugins: config_settings.plugins,
+    // Devtool
+    devtool: config_settings.mode === _DEVELOPMENT_MODE ? 'source-map' : false,
+    // Webpack dev server
+    devServer: {
+        port: 3000
+    },
+    // Module settings
+    module: {
+        rules: [
+            // Javascript / Typescript
+            {
+                test: /\.m?(j|t)sx?$/,
+                include: SOURCE_FOLDER,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        // Typescript and React babel presets
+                        presets: [
+                            '@babel/preset-env',
+                            '@babel/preset-typescript',
+                            '@babel/preset-react'
+                        ]
+                    }
                 }
-            ]
-        },
-        resolve: { extensions: [ '.ts', '.js' ] },
-        // plugins
-        plugins: [
-            new CleanWebpackPlugin({
-                cleanOnceBeforeBuildPatterns: [ '**/*', '!sanitize.css' ]
-            }),
-            new HtmlWebpackPlugin({
-                title: 'starcatcher template',
-                template: htmlPath
-            }),
-            new Serve(options)
-        ],
-        watch: true,
-        output: {
-            filename: '[name].dev.js',
-            path: path.resolve('./dev'),
-            publicPath: publicPath
-        }
+            },
+            // CSS
+            // 4 loaders: style-loader (development), MiniCssExtractPlugin (production), css-loader, postcss-loader (optional)
+            {
+                test: /\.css$/i,
+                include: SOURCE_FOLDER,
+                exclude: /(node_modules|bower_components)/,
+                use: [
+                    config_settings.mode === _DEVELOPMENT_MODE
+                        ? 'style-loader'
+                        : MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 0
+                        }
+                    }
+                    // OPTIONAL postcss-loader (install with npm first, then configure)
+                    // 'postcss-loader'
+                ]
+            },
+            // Asset loading support (images or fonts)
+            {
+                test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
+                type: 'asset'
+            },
+            // Resolve HTML imports (e.g. <img src="...">)
+            {
+                test: /\.(html)$/,
+                use: [ 'html-loader' ]
+            }
+        ]
+    },
+    optimization: {
+        minimizer: [
+            // '...' enables Webpack 5 minimizers in addition to custom minimizers
+            '...',
+            new CssMinimizerPlugin()
+        ]
     }
-]
+})
+
+// Export mapped Webpack configs
+module.exports = [ production, development ].map(Config)

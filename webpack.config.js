@@ -110,9 +110,22 @@ const Config = (config_settings) => ({
                         options: {
                             importLoaders: 0
                         }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    [
+                                        'postcss-preset-env',
+                                        {
+                                            // Options
+                                        }
+                                    ]
+                                ]
+                            }
+                        }
                     }
-                    // OPTIONAL postcss-loader (install with npm first, then configure)
-                    // 'postcss-loader'
                 ]
             },
             // Asset loading support (images or fonts)

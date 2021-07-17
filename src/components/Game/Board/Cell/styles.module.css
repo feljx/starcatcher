@@ -1,0 +1,29 @@
+.proto-cell {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.8rem;
+    font-family: Arial;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+
+.cell {
+    color: var(--blue);
+    background-color: var(--gold);
+
+    :hover {
+        color: var(--gold);
+        background-color: var(--blue);
+    }
+}
+
+.cell-open {
+    color: var(--blue);
+    background-color: var(--gold);
+}
+
+.cell-flagged {
+    color: var(--gold);
+    background-color: var(--red);
+}

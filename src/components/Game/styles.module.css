@@ -1,0 +1,14 @@
+.game {
+    color: var(--gold);
+    margin-left: -10rem;
+
+    display: flex;
+}
+
+.grid {
+    color: var(--gold);
+
+    display: grid;
+    grid-gap: 0.3rem;
+    grid-template-columns: repeat(15, 1fr);
+}

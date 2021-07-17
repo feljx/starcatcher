@@ -1,0 +1,31 @@
+:global :root {
+    --red: #b50060;
+    --gold: #efde73;
+    --blue: #1d2856;
+    --main-bg-color: red;
+}
+
+:global .no-select {
+    user-select: none;
+}
+
+:global body {
+    margin: 0;
+    background-color: var(--blue);
+    font-family: Times, serif;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: flex-start;
+
+    > * {
+        margin-top: 1rem;
+    }
+}
+
+.title {
+    color: var(--gold);
+    font-size: 4rem;
+    margin-top: 2rem;
+}

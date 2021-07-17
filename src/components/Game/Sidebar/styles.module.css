@@ -1,0 +1,27 @@
+.sidebar {
+    width: 6rem;
+    font-size: 3.2rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-right: 4rem;
+
+    > * {
+        padding: 0.6rem;
+    }
+
+    > *:not(:first-child) {
+        margin-top: 3rem;
+    }
+}
+
+.smiley {
+    padding: 0.6rem;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--blue);
+        background-color: var(--gold);
+    }
+}

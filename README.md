@@ -1,2 +1,4 @@
 # starcatcher
-Gotta Catch 'em All !
+
+Simple Minesweeper clone
+https://felixsuhl.com/starcatcher/
